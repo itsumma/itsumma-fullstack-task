@@ -38,7 +38,7 @@ class PeoplesController {
 
     async updatePerson(req: Request, res: Response) {
     try {
-      const personId = Number(req.params.personId);
+      const personId = Number(req.params.id);
       const updatedPerson = req.body;
       const result = await PeoplesService.updatePerson(personId, updatedPerson);
       res.status(200).json(result);
@@ -50,7 +50,7 @@ class PeoplesController {
 
   async deletePerson(req: Request, res: Response) {
     try {
-      const personId = Number(req.params.personId);
+      const personId = Number(req.params.id);
       const result = await PeoplesService.deletePerson(personId);
       res.status(200).json(result);
     } catch (err) {
