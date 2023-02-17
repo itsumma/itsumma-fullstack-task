@@ -1,0 +1,20 @@
+{
+  "name": "itsumma-fullstack-task",
+  "version": "1.0.0",
+  "description": "## Описание",
+  "main": ".eslintrc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sanya789/itsumma-fullstack-task.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sanya789/itsumma-fullstack-task/issues"
+  },
+  "homepage": "https://github.com/Sanya789/itsumma-fullstack-task#readme"
+}
