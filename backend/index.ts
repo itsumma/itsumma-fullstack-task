@@ -1,15 +1,26 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
+import { Pool, PoolConfig } from 'pg';
+import routes from './routes/index'
 
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT;
+const serverPort = process.env.SERVER_PORT;
+const poolConfig: PoolConfig = {
+  user: process.env.PGUSER,
+  host: process.env.PGHOST,
+  database: process.env.PGDATABASE,
+  password: process.env.PGPASSWORD,
+  port: Number(process.env.PGPORT),
+};
+export const pool = new Pool(poolConfig);
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server');
-});
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
-app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+app.use('/api', routes)
+
+app.listen(serverPort, () => {
+  console.log(`⚡️[server]: Server is running at http://localhost:${serverPort}`);
 });
