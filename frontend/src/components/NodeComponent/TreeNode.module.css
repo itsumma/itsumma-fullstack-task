@@ -1,0 +1,16 @@
+.wrapper {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: row;
+  background-color:white ;
+}
+
+.badge {
+
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+}
