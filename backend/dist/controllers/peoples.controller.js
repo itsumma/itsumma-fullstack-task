@@ -56,7 +56,7 @@ class PeoplesController {
     updatePerson(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const personId = Number(req.params.personId);
+                const personId = Number(req.params.id);
                 const updatedPerson = req.body;
                 const result = yield peoples_service_1.default.updatePerson(personId, updatedPerson);
                 res.status(200).json(result);
@@ -70,7 +70,7 @@ class PeoplesController {
     deletePerson(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const personId = Number(req.params.personId);
+                const personId = Number(req.params.id);
                 const result = yield peoples_service_1.default.deletePerson(personId);
                 res.status(200).json(result);
             }
