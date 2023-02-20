@@ -36,6 +36,9 @@ const peopleSlice = createSlice({
         ...state.people.slice(index + 1),
       ];
     },
+    deletePerson(state, action: PayloadAction<number>) {
+      state.people = state.people.filter(person => person.id !== action.payload);
+    },
   },
   extraReducers: {
     [HYDRATE]: (state, action) => {

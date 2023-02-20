@@ -7,6 +7,7 @@ import { Avatar } from '@mui/material';
 
 export default function BasicMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [avatar, setAvatar] = React.useState('');
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -23,7 +24,7 @@ export default function BasicMenu() {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}>
-        <Avatar src="/oSmogs0KgJ7c78AJuPC7--4--rhkey.jpg"></Avatar>
+        <Avatar src={avatar}></Avatar>
       </Button>
       <Menu
         id="basic-menu"

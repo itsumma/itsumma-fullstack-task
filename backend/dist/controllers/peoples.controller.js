@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const peoples_service_1 = __importDefault(require("../services/peoples.service"));
+const fileUpload_1 = require("../middleware/fileUpload");
 class PeoplesController {
     getPeoples(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -54,11 +55,14 @@ class PeoplesController {
         });
     }
     updatePerson(req, res) {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                fileUpload_1.upload.single('avatar');
+                const imageUrl = (_a = req.file) === null || _a === void 0 ? void 0 : _a.path;
                 const personId = Number(req.params.id);
                 const updatedPerson = req.body;
-                const result = yield peoples_service_1.default.updatePerson(personId, updatedPerson);
+                const result = yield peoples_service_1.default.updatePerson(personId, updatedPerson, imageUrl);
                 res.status(200).json(result);
             }
             catch (err) {

@@ -1,4 +1,5 @@
-import express, { Express, Request, Response } from 'express';
+import express, { Express } from 'express';
+import path from 'path';
 import dotenv from 'dotenv';
 import { Pool, PoolConfig } from 'pg';
 import routes from './routes/index'
@@ -18,6 +19,7 @@ export const pool = new Pool(poolConfig);
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use('/images', express.static(path.join(__dirname, 'images')))
 
 app.use('/api', routes)
 

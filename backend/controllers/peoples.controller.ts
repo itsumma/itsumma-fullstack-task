@@ -1,5 +1,6 @@
 import PeoplesService from '../services/peoples.service';
 import {Request, Response} from 'express';
+import { upload } from '../middleware/fileUpload';
 
 class PeoplesController {
   async getPeoples(req: Request, res: Response) {
@@ -38,9 +39,11 @@ class PeoplesController {
 
     async updatePerson(req: Request, res: Response) {
     try {
+      upload.single('avatar')
+      const imageUrl = req.file?.path
       const personId = Number(req.params.id);
       const updatedPerson = req.body;
-      const result = await PeoplesService.updatePerson(personId, updatedPerson);
+      const result = await PeoplesService.updatePerson(personId, updatedPerson, imageUrl);
       res.status(200).json(result);
     } catch (err) {
       console.error(err);
