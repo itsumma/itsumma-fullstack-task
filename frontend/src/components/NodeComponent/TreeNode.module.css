@@ -1,16 +1,55 @@
-.wrapper {
-  width: 200px;
-  height: 200px;
+/* Tree container */
+.tree {
   display: flex;
-  flex-direction: row;
-  background-color:white ;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
-.badge {
-
+/* Tree node */
+.tree-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  margin: 10px;
+  position: relative;
 }
 
-.avatar {
-  width: 100px;
-  height: 100px;
+/* Tree node title */
+.tree-node-title {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Line connecting nodes */
+.tree-line {
+  position: absolute;
+  border-left: 2px solid black;
+}
+
+/* Line for the first child of a node */
+.tree-line-first-child {
+  bottom: 100%;
+}
+
+/* Line for the last child of a node */
+.tree-line-last-child {
+  top: 100%;
+}
+
+/* Style for the root node */
+.tree-node.root {
+  margin: 0;
+}
+
+/* Styles for parent nodes */
+.parent {
+  flex-direction: column-reverse;
+}
+
+/* Styles for children nodes */
+.children {
+  display: flex;
+  justify-content: center;
 }

@@ -1,5 +1,8 @@
 import TreeNode from '@/components/NodeComponent/TreeNode';
+import { selectPeople, setPeople } from '@/store/peopleSlice';
+import { wrapper } from '@/store/store';
 import React, { FC, ReactNode } from 'react';
+import { useSelector } from 'react-redux';
 
 export interface Person {
   id: number;
@@ -13,10 +16,15 @@ type Props = {
   people: Person[];
 };
 
-const PeoplePage: FC<Props> = ({ people }) => {
+const PeoplePage: FC<Props> = () => {
+  const people = useSelector(selectPeople);
+
   console.log(people);
 
-  const findChildren = (personId: number, groupedChildren: {[key: number]: boolean}): Person[] => {
+  const findChildren = (
+    personId: number,
+    groupedChildren: { [key: number]: boolean },
+  ): Person[] => {
     return people.filter((p) => {
       if (p.father_id === personId || p.mother_id === personId) {
         if (groupedChildren[p.id]) {
@@ -29,41 +37,49 @@ const PeoplePage: FC<Props> = ({ people }) => {
     });
   };
 
-  const buildTree = (person: Person, groupedChildren: {[key: number]: boolean}): ReactNode => {
+  const buildTree = (
+    person: Person,
+    groupedChildren: { [key: number]: boolean },
+    isRoot?: boolean,
+    isFirst?: boolean,
+    isLast?: boolean,
+  ): ReactNode => {
     const children = findChildren(person.id, groupedChildren);
-  
+
     const renderedChildren = children.map((child) => buildTree(child, groupedChildren));
-  
+
     if (renderedChildren.length === 0) {
       return <TreeNode key={person.id} title={person.name} />;
     } else {
       return (
-        <TreeNode key={person.id} title={person.name}>
+        <TreeNode
+          key={person.id}
+          title={person.name}
+          isRoot={isRoot}
+          isFirst={isFirst}
+          isLast={isLast}>
           {renderedChildren}
         </TreeNode>
       );
     }
   };
-  
-  
 
   const rootNodes = people.filter((p) => p.father_id === null && p.mother_id === null);
   console.log(rootNodes);
 
   return <div>{rootNodes.map((person) => buildTree(person, {}))}</div>;
-
 };
 
 export default PeoplePage;
 
-export async function getServerSideProps(): Promise<{ props: Props }> {
+export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
   const fetchedData = (await fetch('http://localhost:3001/api/peoples', {}).then((res) =>
     res.json(),
   )) as Person[] | null;
 
   console.log(fetchedData);
-
+  store.dispatch(setPeople(fetchedData ?? []));
   return {
     props: { people: fetchedData ?? [] },
   };
-}
+});

@@ -1,23 +1,46 @@
 import React, { Fragment, ReactNode } from 'react';
-import { Avatar, Badge } from '@mui/material';
-import styles from './TreeNode.module.css'
+import { Avatar, Badge, Button } from '@mui/material';
+import styles from './TreeNode.module.css';
+import BasicMenu from '../MenuComponent/MenuComponent';
 
 interface TreeNodeProps {
   title: string;
   children?: ReactNode;
+  isRoot?: boolean;
+  isFirst?: boolean;
+  isLast?: boolean;
+  isParent?: boolean;
 }
 
-const TreeNode: React.FC<TreeNodeProps> = ({ title, children }) => {
+const TreeNode: React.FC<TreeNodeProps> = ({
+  title,
+  children,
+  isRoot,
+  isFirst,
+  isLast,
+  isParent,
+}) => {
+  const nodeClassNames = [
+    styles['tree-node'],
+    isRoot && styles.root,
+    isFirst && styles['tree-line-first-child'],
+    isLast && styles['tree-line-last-child'],
+    isParent && styles.parent,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <div className={styles.wrapper}>
+    <div className={nodeClassNames}>
       <Badge
         overlap="rectangular"
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         badgeContent={<p>{title}</p>}>
-        <Avatar src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80'></Avatar>
+        <BasicMenu />
       </Badge>
-      {title}
-      {children}
+      {/* <div className={styles['tree-node-title']}>{title}</div> */}
+      <div className={styles.children}>{children}</div>
+      {!isRoot && <div className={`${styles['tree-line']} ${styles['tree-line-first-child']}`} />}
     </div>
   );
 };
