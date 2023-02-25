@@ -7,39 +7,57 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
+import { setPerson } from '@/store/peopleSlice';
+// import { Person } from '@/pages/people';
 
-// const style = {
-//   position: 'absolute' as 'absolute',
-//   top: '50%',
-//   left: '50%',
-//   transform: 'translate(-50%, -50%)',
-//   width: 400,
-//   bgcolor: 'background.paper',
-//   border: '2px solid #000',
-//   boxShadow: 24,
-//   p: 4,
-// };
+type BasicModalProps = {
+  person: Person;
+};
 
-export default function BasicModal() {
+interface Person {
+  id: number;
+  name: string;
+  mother_id?: number;
+  father_id?: number;
+  imageurl?: string; // add imageurl property to the Person interface
+}
+
+export default function BasicModal({ person }: BasicModalProps) {
   const [open, setOpen] = React.useState(false);
-  const [img, setImg] = React.useState('');
+  const [img, setImg] = React.useState<File | null>(null);
+  const [avatar, setAvatar] = React.useState('');
+  const [name, setName] = React.useState(person.name); // update state variable to use Person type
+  const [updatedPerson, setUpdatedPerson] = React.useState(person);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleName: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setName(e.target.value);
+  };
+
   const handleChanges = React.useCallback(async () => {
     try {
       const data = new FormData();
-      data.append('avatar', img);
-      await axios.put('/api/:id', data, {
+      data.append('name', name);
+      if (img) {
+        data.append('avatar', img);
+      }
+  
+      axios.defaults.baseURL = 'http://localhost:3001';
+      const response = await axios.put(`/api/peoples/${person.id}`, data, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-      // .then((res) => setAvatar(res.data))
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+  
+      console.log(response.data, '<--------------- data modal component');
+      setUpdatedPerson(response.data);
+      handleClose();
     } catch (error) {
-
+      console.error(error);
     }
-  }, [img]);
+  }, [img, handleClose, name, person]);
+  
 
   return (
     <div>
@@ -56,16 +74,11 @@ export default function BasicModal() {
             type="text"
             fullWidth
             variant="standard"
+            value={undefined} // Use undefined for an uncontrolled component
+            defaultValue={name} // Use defaultValue to set the initial value
+            onChange={handleName}
           />
-          <TextField
-            margin="dense"
-            id="avatar"
-            label="Загрузить фото"
-            type="file"
-            fullWidth
-            variant="standard"
-            onChange={(e) => setImg(e.currentTarget.value)}
-          />
+          <input type="file" onChange={(e) => setImg(e.target.files?.[0] || null)}></input>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Отменить</Button>

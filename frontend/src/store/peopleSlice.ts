@@ -36,6 +36,10 @@ const peopleSlice = createSlice({
         ...state.people.slice(index + 1),
       ];
     },
+    // getPerson(state, action: PayloadAction<Person>) {
+    //   const index = state.people.findIndex((person) => person.id === action.payload.id);
+    //   state.people = state.people.filter(person => person.id !== action.payload);
+    // },
     deletePerson(state, action: PayloadAction<number>) {
       state.people = state.people.filter(person => person.id !== action.payload);
     },
@@ -50,8 +54,9 @@ const peopleSlice = createSlice({
   },
 });
 
-export const { setPeople } = peopleSlice.actions;
+export const { setPeople, setPerson } = peopleSlice.actions;
 
 export default peopleSlice.reducer;
 
 export const selectPeople = (state: AppState) => state.people.people;
+

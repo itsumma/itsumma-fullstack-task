@@ -4,10 +4,14 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import BasicModal from '../ModalComponent/ModalComponent';
 import { Avatar } from '@mui/material';
+import { Person } from '@/pages/people';
 
-export default function BasicMenu() {
+type BasicMenuProps = {
+  person: Person;
+}
+
+export default function BasicMenu({person}: BasicMenuProps) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [avatar, setAvatar] = React.useState('');
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -24,7 +28,7 @@ export default function BasicMenu() {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}>
-        <Avatar src={avatar}></Avatar>
+        <Avatar src={person.imageUrl}></Avatar>
       </Button>
       <Menu
         id="basic-menu"
@@ -38,7 +42,7 @@ export default function BasicMenu() {
           <Button>Удалить</Button>
         </MenuItem>
         <MenuItem>
-          <BasicModal />
+          <BasicModal person={person}/>
         </MenuItem>
       </Menu>
     </div>

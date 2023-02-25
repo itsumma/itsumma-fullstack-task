@@ -49,15 +49,10 @@ const PeoplePage: FC<Props> = () => {
     const renderedChildren = children.map((child) => buildTree(child, groupedChildren));
 
     if (renderedChildren.length === 0) {
-      return <TreeNode key={person.id} title={person.name} />;
+      return <TreeNode person={person} key={person.id} />;
     } else {
       return (
-        <TreeNode
-          key={person.id}
-          title={person.name}
-          isRoot={isRoot}
-          isFirst={isFirst}
-          isLast={isLast}>
+        <TreeNode person={person} key={person.id} isRoot={isRoot} isFirst={isFirst} isLast={isLast}>
           {renderedChildren}
         </TreeNode>
       );

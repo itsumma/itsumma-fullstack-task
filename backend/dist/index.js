@@ -9,6 +9,8 @@ const path_1 = __importDefault(require("path"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const pg_1 = require("pg");
 const index_1 = __importDefault(require("./routes/index"));
+const cors_1 = __importDefault(require("cors"));
+const body_parser_1 = __importDefault(require("body-parser"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const serverPort = process.env.SERVER_PORT;
@@ -20,8 +22,10 @@ const poolConfig = {
     port: Number(process.env.PGPORT),
 };
 exports.pool = new pg_1.Pool(poolConfig);
+app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
+app.use(body_parser_1.default.json());
 app.use('/images', express_1.default.static(path_1.default.join(__dirname, 'images')));
 app.use('/api', index_1.default);
 app.listen(serverPort, () => {

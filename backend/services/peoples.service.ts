@@ -80,7 +80,7 @@ class PeoplesService {
   // }
   
 
-  async updatePerson(personId: number, person: Person, imageUrl: string | undefined) {
+  async updatePerson(personId: number, person: Partial<Person>, imageUrl?: string) {
     try {
       const result = await pool.query('UPDATE peoples SET name = $1, imageurl = $2 WHERE id = $3 RETURNING *', [person.name, imageUrl, personId]);
       return result.rows[0];
@@ -89,6 +89,9 @@ class PeoplesService {
       throw err;
     }
   }
+  
+  
+  
 
   async deletePerson(personId: number) {
     try {
@@ -102,3 +105,8 @@ class PeoplesService {
 }
 
 export default new PeoplesService();
+
+
+
+
+ 

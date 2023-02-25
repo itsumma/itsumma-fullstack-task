@@ -3,6 +3,8 @@ import path from 'path';
 import dotenv from 'dotenv';
 import { Pool, PoolConfig } from 'pg';
 import routes from './routes/index'
+import cors from 'cors'
+import bodyParser from 'body-parser';
 
 dotenv.config();
 
@@ -17,8 +19,11 @@ const poolConfig: PoolConfig = {
 };
 export const pool = new Pool(poolConfig);
 
+app.use(cors())
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 app.use('/images', express.static(path.join(__dirname, 'images')))
 
 app.use('/api', routes)

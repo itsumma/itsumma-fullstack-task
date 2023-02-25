@@ -1,6 +1,18 @@
 import PeoplesService from '../services/peoples.service';
 import {Request, Response} from 'express';
 import { upload } from '../middleware/fileUpload';
+import formidable from 'formidable'
+
+interface MulterFileWithPath extends Express.Multer.File {
+  path: string;
+}
+interface Person {
+  id: number;
+  name: string;
+  mother_id: number;
+  father_id: number;
+  imageurl?: string;
+}
 
 class PeoplesController {
   async getPeoples(req: Request, res: Response) {
@@ -37,19 +49,26 @@ class PeoplesController {
     }
   }
 
-    async updatePerson(req: Request, res: Response) {
+  async updatePerson(req: Request, res: Response) {
     try {
-      upload.single('avatar')
-      const imageUrl = req.file?.path
       const personId = Number(req.params.id);
-      const updatedPerson = req.body;
-      const result = await PeoplesService.updatePerson(personId, updatedPerson, imageUrl);
-      res.status(200).json(result);
+      const formData = new formidable.IncomingForm();
+      formData.parse(req, async (err, fields, files) => {
+        if (err) {
+          console.error(err);
+          res.status(500).json({ error: 'Ошибка при обновлении данных человека' });
+        }
+        const file = Array.isArray(files.avatar) ? files.avatar[0] : files.avatar;
+        const imageUrl = (file as { path?: string })?.path;
+        const updatedPerson = { ...fields, imageUrl };
+        const result = await PeoplesService.updatePerson(personId, updatedPerson);
+        res.status(200).json(result);
+      });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: 'Server error' });
+      res.status(500).json({ error: 'Ошибка при обновлении данных человека' });
     }
-  }
+  }     
 
   async deletePerson(req: Request, res: Response) {
     try {

@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const peoples_service_1 = __importDefault(require("../services/peoples.service"));
-const fileUpload_1 = require("../middleware/fileUpload");
+const formidable_1 = __importDefault(require("formidable"));
 class PeoplesController {
     getPeoples(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -55,19 +55,25 @@ class PeoplesController {
         });
     }
     updatePerson(req, res) {
-        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                fileUpload_1.upload.single('avatar');
-                const imageUrl = (_a = req.file) === null || _a === void 0 ? void 0 : _a.path;
                 const personId = Number(req.params.id);
-                const updatedPerson = req.body;
-                const result = yield peoples_service_1.default.updatePerson(personId, updatedPerson, imageUrl);
-                res.status(200).json(result);
+                const formData = new formidable_1.default.IncomingForm();
+                formData.parse(req, (err, fields, files) => __awaiter(this, void 0, void 0, function* () {
+                    if (err) {
+                        console.error(err);
+                        res.status(500).json({ error: 'Ошибка при обновлении данных человека' });
+                    }
+                    const file = Array.isArray(files.avatar) ? files.avatar[0] : files.avatar;
+                    const imageUrl = file === null || file === void 0 ? void 0 : file.path;
+                    const updatedPerson = Object.assign(Object.assign({}, fields), { imageUrl });
+                    const result = yield peoples_service_1.default.updatePerson(personId, updatedPerson);
+                    res.status(200).json(result);
+                }));
             }
             catch (err) {
                 console.error(err);
-                res.status(500).json({ error: 'Server error' });
+                res.status(500).json({ error: 'Ошибка при обновлении данных человека' });
             }
         });
     }
