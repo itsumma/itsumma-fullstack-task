@@ -2,6 +2,28 @@ import PeoplesService from '../services/peoples.service';
 import {Request, Response} from 'express';
 import { upload } from '../middleware/fileUpload';
 import formidable from 'formidable'
+// import multer, { FileFilterCallback, Multer } from 'multer';
+// import {v4 as uuidv4} from 'uuid';
+
+// const storage = multer.diskStorage({
+//   destination(req, file, cb) {
+//     cb(null, '/backend/images')
+//   }, filename(req, file, cb) {
+//     cb(null, uuidv4() + '-' + file.originalname)
+//   }
+// })
+
+// const types =['image/png', 'image/jpeg', 'image/jpg']
+
+// const fileFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
+//   if(types.includes(file.mimetype)) {
+//     cb(null, true)
+//   } else {
+//     cb(null, false)
+//   }
+// }
+
+// const upload: Multer = multer({storage, fileFilter})
 
 interface MulterFileWithPath extends Express.Multer.File {
   path: string;
@@ -51,24 +73,31 @@ class PeoplesController {
 
   async updatePerson(req: Request, res: Response) {
     try {
-      const personId = Number(req.params.id);
-      const formData = new formidable.IncomingForm();
-      formData.parse(req, async (err, fields, files) => {
+      upload.single('avatar')(req, res, async (err: any) => {
         if (err) {
           console.error(err);
-          res.status(500).json({ error: 'Ошибка при обновлении данных человека' });
+          res.status(500).json({ error: 'Ошибка при загрузке изображения' });
+          return;
         }
-        const file = Array.isArray(files.avatar) ? files.avatar[0] : files.avatar;
+        const personId = Number(req.params.id);
+        const file = req.file;
         const imageUrl = (file as { path?: string })?.path;
-        const updatedPerson = { ...fields, imageUrl };
-        const result = await PeoplesService.updatePerson(personId, updatedPerson);
+        console.log(imageUrl, '<-image url in controller');
+  
+        const { name } = req.body;
+        const updatedPerson = { name, imageUrl };
+        console.log(updatedPerson, '<-updatedPerson');
+  
+        const result = await PeoplesService.updatePerson(personId, updatedPerson, imageUrl);
         res.status(200).json(result);
       });
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Ошибка при обновлении данных человека' });
     }
-  }     
+  }
+  
+      
 
   async deletePerson(req: Request, res: Response) {
     try {

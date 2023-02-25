@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const peoples_service_1 = __importDefault(require("../services/peoples.service"));
-const formidable_1 = __importDefault(require("formidable"));
+const fileUpload_1 = require("../middleware/fileUpload");
 class PeoplesController {
     getPeoples(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -57,17 +57,20 @@ class PeoplesController {
     updatePerson(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const personId = Number(req.params.id);
-                const formData = new formidable_1.default.IncomingForm();
-                formData.parse(req, (err, fields, files) => __awaiter(this, void 0, void 0, function* () {
+                fileUpload_1.upload.single('avatar')(req, res, (err) => __awaiter(this, void 0, void 0, function* () {
                     if (err) {
                         console.error(err);
-                        res.status(500).json({ error: 'Ошибка при обновлении данных человека' });
+                        res.status(500).json({ error: 'Ошибка при загрузке изображения' });
+                        return;
                     }
-                    const file = Array.isArray(files.avatar) ? files.avatar[0] : files.avatar;
+                    const personId = Number(req.params.id);
+                    const file = req.file;
                     const imageUrl = file === null || file === void 0 ? void 0 : file.path;
-                    const updatedPerson = Object.assign(Object.assign({}, fields), { imageUrl });
-                    const result = yield peoples_service_1.default.updatePerson(personId, updatedPerson);
+                    console.log(imageUrl, '<-image url in controller');
+                    const { name } = req.body;
+                    const updatedPerson = { name, imageUrl };
+                    console.log(updatedPerson, '<-updatedPerson');
+                    const result = yield peoples_service_1.default.updatePerson(personId, updatedPerson, imageUrl);
                     res.status(200).json(result);
                 }));
             }

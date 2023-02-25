@@ -5,6 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import BasicModal from '../ModalComponent/ModalComponent';
 import { Avatar } from '@mui/material';
 import { Person } from '@/pages/people';
+import axios from 'axios';
 
 type BasicMenuProps = {
   person: Person;
@@ -19,6 +20,8 @@ export default function BasicMenu({person}: BasicMenuProps) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const imageUrl = `http://localhost:3001/${person.imageurl}`;
+console.log(person);
 
   return (
     <div>
@@ -27,8 +30,8 @@ export default function BasicMenu({person}: BasicMenuProps) {
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}>
-        <Avatar src={person.imageUrl}></Avatar>
+        onClick={handleClick}>  
+        <Avatar src={imageUrl}></Avatar>
       </Button>
       <Menu
         id="basic-menu"

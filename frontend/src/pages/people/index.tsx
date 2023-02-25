@@ -9,7 +9,7 @@ export interface Person {
   name: string;
   mother_id?: number;
   father_id?: number;
-  imageUrl?: string;
+  imageurl?: string;
 }
 
 type Props = {
