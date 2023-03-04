@@ -1,0 +1,19 @@
+.family-member_container {
+    width: -webkit-fill-available;
+}
+
+.family-member_box {
+    padding: 5px;
+    border: 1px solid grey;
+    margin: 0 auto;
+    border-radius: 8px;
+    background-color: rgba(201, 253, 222, 0.26);
+    width: fit-content;
+}
+
+.family-member_avatar {
+    margin: 0 auto;
+    cursor: pointer;
+    height: 60px;
+    width: 60px;
+}

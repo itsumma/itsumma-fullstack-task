@@ -1,0 +1,17 @@
+/*margins*/
+.m-b-1 {
+    margin-bottom: 10px;
+}
+
+.m-b-2 {
+    margin-bottom: 20px;
+}
+
+.m-b-3 {
+    margin-bottom: 30px;
+}
+
+/*width*/
+.min-width_max-content {
+    min-width: max-content;
+}

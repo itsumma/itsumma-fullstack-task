@@ -1,0 +1,5 @@
+.add-form_btn-box,
+.edit-form_btn-box{
+    display: flex;
+    justify-content: space-between;
+}
