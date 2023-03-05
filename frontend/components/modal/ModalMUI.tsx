@@ -4,19 +4,19 @@ import Modal from '@mui/material/Modal';
 import {ReactNode} from "react";
 
 
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    backgroundColor: 'background.paper',
-    border: '1px solid #000',
-    boxShadow: 24,
-    borderRadius:5,
-    p: 5,
-    textAlign: 'center',
-};
+// const style = {
+//     position: 'absolute' as 'absolute',
+//     top: '50%',
+//     left: '50%',
+//     transform: 'translate(-50%, -50%)',
+//     width: 400,
+//     backgroundColor: 'background.paper',
+//     border: '1px solid #000',
+//     boxShadow: 24,
+//     borderRadius:5,
+//     p: 5,
+//     textAlign: 'center',
+// };
 
 type Props = {
     open:boolean,
@@ -32,7 +32,7 @@ export const ModalMUI = ({open, children}:Props) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
+                <Box className='modal_box'>
                     {children}
                 </Box>
             </Modal>

@@ -23,7 +23,7 @@ export default function AddMemberForm({onCancel, parent_id, updateTree} : Props)
     };
 
     const createMember = async () => {
-        if (!firstName || !lastName ||!avatar) {
+        if (!firstName.trim() || !lastName.trim() ||!avatar) {
             toast.warning('Fill all fields')
             return
         }

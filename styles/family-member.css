@@ -13,7 +13,37 @@
 
 .family-member_avatar {
     margin: 0 auto;
-    cursor: pointer;
     height: 60px;
     width: 60px;
+}
+
+.family-member_hr{
+    width: inherit;
+    height:1px ;
+    margin-bottom:0;
+    border:none;
+    background-color:#d3d3d3
+}
+.family-member_arrow-toggle {
+    cursor: pointer;
+    color: darkcyan;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+    .family-member_name {
+       display: none;
+    }
+    .family-member_avatar {
+        height: 36px;
+        width: 36px;
+    }
+    .family-member_hr {
+        display: none;
+    }
+
+    .family-member_box {
+        margin: 5px 0 0 5px;
+    }
 }

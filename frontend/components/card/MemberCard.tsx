@@ -7,6 +7,9 @@ import EditMemberForm from "@/frontend/components/forms/EditMember";
 import RemoveDialog from "@/frontend/components/dialog/RemoveDialog";
 import {Avatar} from "@mui/material";
 import {Child, FamilyTreeType} from "@/interfaces/famili-tree";
+import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
+import ExpandIcon from '@mui/icons-material/Expand';
+
 
 
 export default function MemberCard({family, expand, updateTree, children}:{family: FamilyTreeType | Child, children:boolean,expand: () => void, updateTree: () => void}){
@@ -22,13 +25,16 @@ export default function MemberCard({family, expand, updateTree, children}:{famil
         <div className='family-member_container'>
             <Box className='family-member_box' component='div' >
                 <Avatar
-                    onClick={expand}
                     className='family-member_avatar'
                     alt="Remy Sharp"
                     src={`/uploads/${family?.avatar_url}`}
                 />
+                <ExpandIcon
+                    fontSize='small'
+                    className='family-member_arrow-toggle'
+                    onClick={expand}/>
                 <hr/>
-                <span>{family?.first_name} {family?.last_name}</span>
+                <span className='family-member_name'>{family?.first_name} {family?.last_name}</span>
                 <Box>
                     <CustomIcon type={'add'} onClick={toggleModal}/>
                     <CustomIcon type={'edit'} onClick={toggleModal}/>
@@ -41,7 +47,7 @@ export default function MemberCard({family, expand, updateTree, children}:{famil
                 {modalType === 'remove' && (<RemoveDialog updateTree={updateTree} family={family} onCancel={toggleModal}/>)}
             </ModalMUI>
             {
-                children && <hr style={{width:'inherit',height:1, marginBottom:0 , border:'none', backgroundColor:'#d3d3d3'}}/>
+                children && <hr className='family-member_hr' />
             }
 
         </div>

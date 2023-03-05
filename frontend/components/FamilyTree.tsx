@@ -25,19 +25,23 @@ export default function FamilyTree({ familyTree, updateTree, children }:Props) {
             }
 
             <MemberCard family={familyTree} children={children} expand={expand} updateTree={updateTree} />
-            <div className='family-tree_section'>
-            {isVisible ? (
-                familyTree?.children?.map((child:Child) => {
-                    return (
-                        <div className='family-tree_box' key={child.id}>
-                            <FamilyTree familyTree={child} children={!!child.children} updateTree={updateTree}/>
-                        </div>
-                    );
-                })
-            ) : (
-                <></>
-            )}
+            <div className='family-tree_section-mobile'>
+                <hr className='family-tree_mobile'/>
+                <div className='family-tree_section'>
+                    {isVisible ? (
+                        familyTree?.children?.map((child:Child) => {
+                            return (
+                                <div className='family-tree_box' key={child.id}>
+                                    <FamilyTree familyTree={child} children={!!child.children} updateTree={updateTree}/>
+                                </div>
+                            );
+                        })
+                    ) : (
+                        <></>
+                    )}
+                </div>
             </div>
+
         </div>
     );
 }

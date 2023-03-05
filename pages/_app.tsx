@@ -3,6 +3,7 @@ import "@/styles/form.css";
 import "@/styles/start-screen.css";
 import "@/styles/family-tree.css";
 import "@/styles/family-member.css";
+import "@/styles/modal.css";
 import type { AppProps } from "next/app";
 import * as React from "react";
 import "react-toastify/dist/ReactToastify.css";

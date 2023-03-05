@@ -29,3 +29,29 @@
     color: #d3d3d3;
     margin-top: -10px;
 }
+.family-tree_mobile {
+    display: none;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .family-tree_container {
+        flex-direction: column;
+        margin: 0;
+    }
+
+    .family-tree_section {
+        flex-direction: column;
+        margin-left: 30px;
+    }
+    .family-tree_hr-vertical,
+    .family-tree_arrow {
+        display: none;
+    }
+    .family-tree_mobile {
+        display: block;
+    }
+    .family-tree_section-mobile{
+        display: flex;
+    }
+}

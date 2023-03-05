@@ -26,10 +26,10 @@ export default function EditMemberForm({family, onCancel, updateTree} : Props){
 
     const editMember = async () => {
         const formData = new FormData()
-        if(firstName !== family.first_name){
+        if(firstName.trim() && (firstName !== family.first_name)){
             formData.append("first_name",  firstName);
         }
-        if(lastName !== family.last_name){
+        if(lastName.trim() && (lastName !== family.last_name)){
             formData.append("last_name",  lastName);
         }
         // @ts-ignore

@@ -15,7 +15,7 @@ export default function StartScreen({toggleModal}:Props){
             <CustomIcon type={'create'} onClick={toggleModal}/>
             <Typography color={'primary'} variant="h5" component="h5">
                 Create your family tree.
-            </Typography>;
+            </Typography>
         </div>
     )
 }
