@@ -28,6 +28,7 @@ export default function Home({familyTree}:Props) {
 		const tree = createTree(members);
 		setTree(tree);
 	};
+
 	return (
 		<React.Fragment>
 			{

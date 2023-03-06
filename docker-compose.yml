@@ -1,15 +1,15 @@
 version: "3.8"
 services:
-  web:
-    build: .
-    ports:
-      - ${NEXT_PORT}:${NEXT_PORT}
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@host.docker.internal:${POSTGRES_PORT}/${POSTGRES_DB}?schema=${POSTGRES_SCHEMA}
-    networks:
-      - my-network
+#  web:
+#    build: .
+#    ports:
+#      - ${NEXT_PORT}:${NEXT_PORT}
+#    depends_on:
+#      - db
+#    environment:
+#      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@host.docker.internal:${POSTGRES_PORT}/${POSTGRES_DB}?schema=${POSTGRES_SCHEMA}
+#    networks:
+#      - my-network
   db:
     image: postgres
     restart: always
@@ -29,6 +29,4 @@ networks:
 
 volumes:
   db_data:
-#volumes:
-#  db:
-#    driver: local
+
